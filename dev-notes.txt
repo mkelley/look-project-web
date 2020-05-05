@@ -1,6 +1,47 @@
+# starting with fresh github repo
+cd look-project-web
+
 # get react/gatsby example from material-ui
 curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/gatsby
 mv -n gatsby/* gatsby/. .
 rm gatsby/README.md
 rmdir gatsby
+
+# setup node modules
+npm install
+npm install @material-ui/icons
+
+# run development server
+npm run develop
+
+###########################################################
+# create firebase project
+# https://console.firebase.google.com/
+
+# install firebase, if needed
+npm install -g firebase-tools
+
+# install firebase to look-project-web
+npm install firebase --save
+
+# firebase login and initialize
+firebase login  # if not already done
+firebase init
+# select hosting and database
+# select use existing project / look...
+# use public as the public directory
+# single page app: no
+
+###########################################################
+# setup authentication with firebase
+
+# Use material-ui authentication template:
+# https://github.com/mui-org/material-ui/tree/master/docs/src/pages/getting-started/templates/sign-in
+(cd src/components; wget https://raw.githubusercontent.com/mui-org/material-ui/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js)
+
+# create web app named development
+# copy firebaseConfig and add to src/firebase.js
+
+# follow authentication guide:
+# https://firebase.google.com/docs/auth/web/password-auth
 

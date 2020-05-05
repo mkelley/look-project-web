@@ -1,24 +1,24 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import ProTip from '../components/ProTip';
-import Link from '../components/Link';
-import Copyright from '../components/Copyright';
+import SignIn from '../components/SignIn';
+
+import firebase from '../firebase.js';
 
 export default function Index() {
+  const [authorized, setAuthorized] = React.useState(null);
+
+  firebase.auth().onAuthStateChanged(user => {
+    setAuthorized(firebase.auth().currentUser !== null);
+  });
+
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Gatsby v4-beta example
-        </Typography>
-        <Link to="/about" color="secondary">
-          Go to the about page
-        </Link>
-        <ProTip />
-        <Copyright />
-      </Box>
+    <Container component="main" maxWidth="md">
+      {authorized &&
+        <p>Authorized</p>
+      }
+      {(authorized === false) &&
+        <SignIn />
+      }
     </Container>
   );
 }
