@@ -1,0 +1,6 @@
+# get react/gatsby example from material-ui
+curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/gatsby
+mv -n gatsby/* gatsby/. .
+rm gatsby/README.md
+rmdir gatsby
+
