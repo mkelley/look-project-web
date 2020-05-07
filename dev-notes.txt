@@ -10,6 +10,7 @@ rmdir gatsby
 # setup node modules
 npm install
 npm install @material-ui/icons
+npm install 
 
 # run development server
 npm run develop
@@ -57,3 +58,17 @@ firebase init
 #
 # or just keep using plotly
 npm install plotly.js react-plotly.js
+
+
+
+// New Tableau 10 colors:
+// blue: 4e79a7
+// green: 59a14f
+// brown: 9c755f
+// orange: f28e2b
+// yellow: edc948
+// gray: bab0ac
+// red: e15759
+// purple: b07aa1
+// cyan?: 76b7b2
+// pink: ff9da7

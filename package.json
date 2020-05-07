@@ -6,15 +6,18 @@
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "latest",
+    "acorn": "^7.1.1",
     "firebase": "^7.14.2",
     "gatsby": "latest",
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "latest",
+    "moment": "^2.25.3",
     "plotly.js": "^1.54.1",
     "react": "latest",
     "react-dom": "latest",
     "react-helmet": "latest",
     "react-plotly.js": "^2.4.0",
+    "typescript": "^3.8.3",
     "uplot": "^1.0.8"
   },
   "scripts": {
