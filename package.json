@@ -10,9 +10,12 @@
     "gatsby": "latest",
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "latest",
+    "plotly.js": "^1.54.1",
     "react": "latest",
     "react-dom": "latest",
-    "react-helmet": "latest"
+    "react-helmet": "latest",
+    "react-plotly.js": "^2.4.0",
+    "uplot": "^1.0.8"
   },
   "scripts": {
     "develop": "gatsby develop",

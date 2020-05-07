@@ -1,8 +1,7 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
+import Layout from '../components/Layout';
 import SignIn from '../components/SignIn';
-
-import firebase from '../firebase.js';
+import firebase from '../firebase';
 
 export default function Index() {
   const [authorized, setAuthorized] = React.useState(null);
@@ -12,13 +11,11 @@ export default function Index() {
   });
 
   return (
-    <Container component="main" maxWidth="md">
+    <>
       {authorized &&
-        <p>Authorized</p>
+        <Layout />
       }
-      {(authorized === false) &&
-        <SignIn />
-      }
-    </Container>
+      {(authorized === false) && <SignIn />}
+    </>
   );
 }

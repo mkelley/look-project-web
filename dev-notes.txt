@@ -45,3 +45,15 @@ firebase init
 # follow authentication guide:
 # https://firebase.google.com/docs/auth/web/password-auth
 
+
+###########################################################
+# plots
+#
+# thought about plots with recharts:
+# https://recharts.org/en-US/examples/ScatterAndLineOfBestFit
+# but performance?
+#
+# instead uPlot?
+#
+# or just keep using plotly
+npm install plotly.js react-plotly.js
