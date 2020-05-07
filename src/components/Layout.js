@@ -9,21 +9,16 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import AlertsByDay from './AlertsByDay';
-import AnomalousAlerts from './AnomalousAlerts';
 import { mainListItems, secondaryListItems } from './Drawer';
 import { SignOutMenuItem } from './SignIn';
-import RecentAlerts from './RecentAlerts';
 
 import firebase from '../firebase';
 
@@ -108,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout() {
+export default function Layout({ children }) {
   const classes = useStyles();
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -128,7 +123,6 @@ export default function Layout() {
   };
 
   const email = firebase.auth().currentUser.email;
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -201,26 +195,7 @@ export default function Layout() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Recent alerts */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <RecentAlerts />
-              </Paper>
-            </Grid>
-            {/* Anomalous Alerts */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <AnomalousAlerts />
-              </Paper>
-            </Grid>
-            {/* Alerts by day */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <AlertsByDay />
-              </Paper>
-            </Grid>
-          </Grid>
+          {children}
         </Container>
       </main>
     </div>

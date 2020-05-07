@@ -6,7 +6,6 @@ import firebase from '../firebase';
 import { SignOutMenuItem } from './SignIn';
 import { enableNotifications, disableNotifications, ifNotificationsAreEnabled } from '../notifications';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,

@@ -11,7 +11,7 @@ export default function AlertsByDay() {
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Alerts by day
+        Alerts by Day
       </Typography>
       <Table size="small">
         <TableHead>
