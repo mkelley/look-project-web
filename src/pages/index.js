@@ -7,8 +7,11 @@ import Paper from '@material-ui/core/Paper';
 
 import AlertsByDay from '../components/AlertsByDay';
 import AnomalousAlerts from '../components/AnomalousAlerts';
+import AnomalousPhotometry from '../components/AnomalousPhotometry';
 import Layout from '../components/Layout';
 import RecentAlerts from '../components/RecentAlerts';
+import RecentPhotometryPlot from '../components/RecentPhotometryPlot';
+import RecentPhotometryTable from '../components/RecentPhotometryTable';
 import SignIn from '../components/SignIn';
 
 import firebase from '../firebase';
@@ -45,16 +48,37 @@ export default function Index() {
                 <RecentAlerts />
               </Paper>
             </Grid>
-            {/* Anomalous Alerts */}
+            {/* Anomalous alerts */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <AnomalousAlerts />
               </Paper>
             </Grid>
+
             {/* Alerts by day */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <AlertsByDay />
+              </Paper>
+            </Grid>
+
+            {/* Recent stats */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                <RecentPhotometryPlot />
+              </Paper>
+            </Grid>
+            {/* Anomalous photometry */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <AnomalousPhotometry />
+              </Paper>
+            </Grid>
+
+            {/* Recent photometry */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <RecentPhotometryTable />
               </Paper>
             </Grid>
           </Grid>

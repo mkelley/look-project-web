@@ -28,8 +28,8 @@ export default function AlertsByDay() {
               <TableRow key={date}>
                 <TableCell>{date}</TableCell>
                 <TableCell>{alerts.length}</TableCell>
-                <TableCell>{filterInliers(alerts, 3).length}</TableCell>
-                <TableCell>{filterInliers(alerts, 5).length}</TableCell>
+                <TableCell>{filterInliers(alerts, 3, ['ostat', 'estat']).length}</TableCell>
+                <TableCell>{filterInliers(alerts, 5, ['ostat', 'estat']).length}</TableCell>
               </TableRow>
             );
           })}

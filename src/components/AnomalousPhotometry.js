@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { recentAlerts, filterInliers } from '../data';
+import { recentPhot, filterInliers } from '../data';
 
 const useStyles = makeStyles({
   depositContext: {
@@ -15,13 +15,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AnomalousAlerts() {
+export default function AnomalousPhotometry() {
   const classes = useStyles();
-  const outliers = filterInliers(recentAlerts, 5, ['ostat', 'estat']);
+  const outliers = filterInliers(recentPhot, 3, ['ostat']);
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Anomalous Alerts
+        Anomalous Photometry
       </Typography>
       {(outliers.length > 0) &&
         <TableContainer>

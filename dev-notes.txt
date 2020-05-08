@@ -10,7 +10,8 @@ rmdir gatsby
 # setup node modules
 npm install
 npm install @material-ui/icons
-npm install 
+npm install moment --save
+npm install mui-datatables --save
 
 # run development server
 npm run develop

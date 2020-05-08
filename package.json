@@ -12,6 +12,7 @@
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "latest",
     "moment": "^2.25.3",
+    "mui-datatables": "^2.14.0",
     "plotly.js": "^1.54.1",
     "react": "latest",
     "react-dom": "latest",
