@@ -28,63 +28,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Index() {
+function Dashboard() {
   const classes = useStyles();
-  const [authorized, setAuthorized] = React.useState(null);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  return (
+    <>
+      <Grid container spacing={3}>
+        {/* Recent alerts */}
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper className={fixedHeightPaper}>
+            <RecentAlerts />
+          </Paper>
+        </Grid>
+        {/* Anomalous alerts */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper className={fixedHeightPaper}>
+            <AnomalousAlerts />
+          </Paper>
+        </Grid>
+
+        {/* Alerts by day */}
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <AlertsByDay />
+          </Paper>
+        </Grid>
+
+        {/* Recent stats */}
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper className={fixedHeightPaper}>
+            <RecentPhotometryPlot />
+          </Paper>
+        </Grid>
+        {/* Anomalous photometry */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper className={fixedHeightPaper}>
+            <AnomalousPhotometry />
+          </Paper>
+        </Grid>
+
+        {/* Recent photometry */}
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <RecentPhotometryTable />
+          </Paper>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+export default function Index() {
+  const [authorized, setAuthorized] = React.useState(null);
+  const [page, setPage] = React.useState('dashboard');
 
   firebase.auth().onAuthStateChanged(user => {
     setAuthorized(firebase.auth().currentUser !== null);
   });
 
-  return (
-    <>
-      {authorized &&
-        <Layout>
-          <Grid container spacing={3}>
-            {/* Recent alerts */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <RecentAlerts />
-              </Paper>
-            </Grid>
-            {/* Anomalous alerts */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <AnomalousAlerts />
-              </Paper>
-            </Grid>
-
-            {/* Alerts by day */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <AlertsByDay />
-              </Paper>
-            </Grid>
-
-            {/* Recent stats */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <RecentPhotometryPlot />
-              </Paper>
-            </Grid>
-            {/* Anomalous photometry */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <AnomalousPhotometry />
-              </Paper>
-            </Grid>
-
-            {/* Recent photometry */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <RecentPhotometryTable />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Layout>
-      }
-      {(authorized === false) && <SignIn />}
-    </>
-  );
+  if (authorized === null) {
+    return <></>;
+  } else if (authorized) {
+    if (page === 'summary-by-date') {
+      return <Layout setPage={setPage}></Layout>;
+    } else if (page === 'summary-by-object') {
+      return <Layout setPage={setPage}></Layout>;
+    } else {
+      return <Layout setPage={setPage}><Dashboard /></Layout>;
+    }
+  } else {
+    return <SignIn />;
+  }
 }

@@ -47,7 +47,7 @@ export default function AnomalousAlerts() {
           </Table>
         </TableContainer>
       }
-      {(outliers.length == 0) &&
+      {(outliers.length === 0) &&
         <Typography component="p" variant="h5">
           None
         </Typography>

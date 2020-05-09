@@ -8,7 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import firebase from '../firebase.js';
+import { auth } from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,7 +34,7 @@ export default function SignIn() {
   const classes = useStyles();
 
   function signIn() {
-    if (firebase.auth().currentUser) {
+    if (auth().currentUser) {
       // already signed in
       return null;
     } else {
@@ -49,7 +49,7 @@ export default function SignIn() {
         return;
       }
       // Sign in with email and pass.
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      auth().signInWithEmailAndPassword(email, password)
         .catch(function (error) {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -65,7 +65,7 @@ export default function SignIn() {
 
   function passwordReset() {
     var email = document.getElementById('email').value;
-    firebase.auth().sendPasswordResetEmail(email).then(function () {
+    auth().sendPasswordResetEmail(email).then(function () {
       // Password Reset Email Sent!
       alert('Password Reset Email Sent!');
     }).catch(function (error) {
@@ -139,14 +139,14 @@ export function SignOutButton(props) {
   return (
     <Button
       color={props.color || "inherit"}
-      onClick={(e) => firebase.auth().signOut()}
+      onClick={(e) => auth().signOut()}
     >Sign out</Button>
   );
 }
 
 export function SignOutMenuItem(props) {
   return (
-    <MenuItem onClick={(e) => firebase.auth().signOut()}>
+    <MenuItem onClick={(e) => auth().signOut()}>
       Sign out
     </MenuItem>
   );

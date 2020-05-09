@@ -5,19 +5,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 
-import { mainListItems, secondaryListItems } from './Drawer';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import LabelIcon from '@material-ui/icons/Label';
+
 import { SignOutMenuItem } from './SignIn';
 
 import firebase from '../firebase';
@@ -103,7 +112,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout({ children }) {
+function DrawerItem({ href, onClick, text, icon }) {
+  return (
+    <ListItem button component="a" href={href} onClick={onClick}>
+      <Tooltip title={text} placement="right">
+        <ListItemIcon>
+          {icon}
+        </ListItemIcon>
+      </Tooltip>
+      <ListItemText primary={text} />
+    </ListItem>
+  );
+}
+
+function openPage(setPage, page) {
+  return ((event) => {
+    console.log(page);
+    event.preventDefault();
+    setPage(page);
+  });
+}
+
+export default function Layout({ children, setPage }) {
   const classes = useStyles();
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -149,7 +179,7 @@ export default function Layout({ children }) {
               color="inherit"
               id="avatarButton"
             >
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <Avatar className={classes.avatar}>{email[0].toUpperCase()}</Avatar>
               </Badge>
             </IconButton>
@@ -188,9 +218,32 @@ export default function Layout({ children }) {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <div>
+            <DrawerItem
+              text="Dashboard"
+              onClick={openPage(setPage, 'dashboard')}
+              icon={<DashboardIcon />}
+            />
+            <DrawerItem
+              text="Summary by date"
+              onClick={openPage(setPage, 'summary-by-date')}
+              icon={<CalendarTodayIcon />}
+            />
+            <DrawerItem
+              text="Summary by object"
+              onClick={openPage(setPage, 'summary-by-object')}
+              icon={<LabelIcon />}
+            />
+          </div>
+        </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <ListSubheader inset>Saved reports</ListSubheader>
+          <DrawerItem text="Current month" href="#" icon={<AssignmentIcon />} />
+          <DrawerItem text="Last quarter" href="#" icon={<AssignmentIcon />} />
+          <DrawerItem text="All time" href="#" icon={<AssignmentIcon />} />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
