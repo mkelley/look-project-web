@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { lastWeekAlerts, filterInliers } from '../data';
+import { LinkToDate } from './LinkTo';
 
 export default function AlertsByDay() {
   return (
@@ -26,7 +27,7 @@ export default function AlertsByDay() {
           {Array.from(lastWeekAlerts.entries()).map(([date, alerts]) => {
             return (
               <TableRow key={date}>
-                <TableCell>{date}</TableCell>
+                <TableCell><LinkToDate date={date} /></TableCell>
                 <TableCell>{alerts.length}</TableCell>
                 <TableCell>{filterInliers(alerts, 3, ['ostat', 'estat']).length}</TableCell>
                 <TableCell>{filterInliers(alerts, 5, ['ostat', 'estat']).length}</TableCell>

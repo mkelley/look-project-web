@@ -125,15 +125,7 @@ function DrawerItem({ href, onClick, text, icon }) {
   );
 }
 
-function openPage(setPage, page) {
-  return ((event) => {
-    console.log(page);
-    event.preventDefault();
-    setPage(page);
-  });
-}
-
-export default function Layout({ children, setPage }) {
+export default function Layout({ children }) {
   const classes = useStyles();
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -222,17 +214,17 @@ export default function Layout({ children, setPage }) {
           <div>
             <DrawerItem
               text="Dashboard"
-              onClick={openPage(setPage, 'dashboard')}
+              href='#dashboard'
               icon={<DashboardIcon />}
             />
             <DrawerItem
               text="Summary by date"
-              onClick={openPage(setPage, 'summary-by-date')}
+              href='#summary-by-date'
               icon={<CalendarTodayIcon />}
             />
             <DrawerItem
               text="Summary by object"
-              onClick={openPage(setPage, 'summary-by-object')}
+              href='#summary-by-object'
               icon={<LabelIcon />}
             />
           </div>
@@ -240,9 +232,9 @@ export default function Layout({ children, setPage }) {
         <Divider />
         <List>
           <ListSubheader inset>Saved reports</ListSubheader>
-          <DrawerItem text="Current month" href="#" icon={<AssignmentIcon />} />
-          <DrawerItem text="Last quarter" href="#" icon={<AssignmentIcon />} />
-          <DrawerItem text="All time" href="#" icon={<AssignmentIcon />} />
+          <DrawerItem text="Current month" href="#report?period=monthly" icon={<AssignmentIcon />} />
+          <DrawerItem text="Current semester" href="#report?period=semester" icon={<AssignmentIcon />} />
+          <DrawerItem text="All time" href="#report?period=project" icon={<AssignmentIcon />} />
         </List>
       </Drawer>
       <main className={classes.content}>

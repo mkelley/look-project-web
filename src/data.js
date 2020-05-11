@@ -95,8 +95,16 @@ function createPhotometry(object, M, rh0) {
     delta,
     phase,
     filter,
-    m,
-    merr,
+    m2: m[0],
+    m5: m[1],
+    m10: m[2],
+    m10000: m[3],
+    m20000: m[4],
+    merr2: merr[0],
+    merr5: merr[1],
+    merr10: merr[2],
+    merr10000: merr[3],
+    merr20000: merr[4],
     estat,
     ostat
   };

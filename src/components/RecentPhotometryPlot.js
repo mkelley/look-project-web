@@ -10,7 +10,6 @@ export default function RecentPhotometryPlot() {
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
         Recent Photometry
       </Typography>
-      {console.log(recentPhot)}
       <Container>
         <Plot
           data={[{

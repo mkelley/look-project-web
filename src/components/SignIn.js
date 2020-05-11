@@ -144,7 +144,7 @@ export function SignOutButton(props) {
   );
 }
 
-export function SignOutMenuItem(props) {
+export function SignOutMenuItem() {
   return (
     <MenuItem onClick={(e) => auth().signOut()}>
       Sign out
