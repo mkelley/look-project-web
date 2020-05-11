@@ -117,12 +117,14 @@ export default function Index() {
   const [page, setPage] = React.useState(nav.page);
   const [query, setQuery] = React.useState(nav.query);
 
-  window.onhashchange = (event) => {
-    event.preventDefault();
-    const nav = parseHash();
-    setPage(nav.page);
-    setQuery(nav.query);
-  };
+  if (typeof window !== `undefined`) {
+    window.onhashchange = (event) => {
+      event.preventDefault();
+      const nav = parseHash();
+      setPage(nav.page);
+      setQuery(nav.query);
+    };
+  }
 
   firebase.auth().onAuthStateChanged(user => {
     setAuthorized(firebase.auth().currentUser !== null);
