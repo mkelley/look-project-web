@@ -11,6 +11,7 @@
     "gatsby": "latest",
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "latest",
+    "ify-loader": "^1.1.0",
     "moment": "^2.25.3",
     "mui-datatables": "^2.14.0",
     "plotly.js": "^1.54.1",

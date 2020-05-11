@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Plot from 'react-plotly.js';
+import Plot from './Plot';
 import { recentPhot } from '../data';
 
 export default function RecentPhotometryPlot() {

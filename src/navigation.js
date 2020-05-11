@@ -6,23 +6,25 @@
 */
 export default function parseHash() {
   let allowedSearchParams = ['object', 'date', 'period'];
-  let url = new URL(window.location.href);
-  let hash = url.hash || '';
   let page, search, query;
 
-  const i = hash.indexOf('?');
-  if (i === -1) {
-    page = hash;
-    search = new URLSearchParams();  // empty query
-  } else {
-    page = hash.substring(0, i);
-    search = new URLSearchParams(hash.substring(i));
-  }
+  if (typeof window !== `undefined`) {
+    let url = new URL(window.location.href);
+    let hash = url.hash || '';
 
-  query = new Map();
-  for (let p of allowedSearchParams) {
-    query[p] = search.get(p);
-  }
+    const i = hash.indexOf('?');
+    if (i === -1) {
+      page = hash;
+      search = new URLSearchParams();  // empty query
+    } else {
+      page = hash.substring(0, i);
+      search = new URLSearchParams(hash.substring(i));
+    }
 
+    query = new Map();
+    for (let p of allowedSearchParams) {
+      query[p] = search.get(p);
+    }
+  }
   return { page, query };
 }

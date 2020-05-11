@@ -47,7 +47,7 @@ firebase init
 # follow authentication guide:
 # https://firebase.google.com/docs/auth/web/password-auth
 
-# note issue with gatsby and firebase combo:
+# note issue with webpack and firebase combo:
 https://github.com/firebase/firebase-js-sdk/issues/2222
 
 
@@ -63,7 +63,11 @@ https://github.com/firebase/firebase-js-sdk/issues/2222
 # or just keep using plotly
 npm install plotly.js react-plotly.js
 
-
+# note issue with webpack and plotly combo:
+https://github.com/plotly/plotly.js/blob/master/BUILDING.md
+# I think I tried the fix with gatsby-node.js, but it didn't work.
+# instead, avoid building plots when document isn't available: 
+https://www.gatsbyjs.org/docs/debugging-html-builds/#fixing-third-party-modules
 
 // New Tableau 10 colors:
 // blue: 4e79a7
