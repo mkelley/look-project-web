@@ -47,6 +47,9 @@ firebase init
 # follow authentication guide:
 # https://firebase.google.com/docs/auth/web/password-auth
 
+# note issue with gatsby and firebase combo:
+https://github.com/firebase/firebase-js-sdk/issues/2222
+
 
 ###########################################################
 # plots
