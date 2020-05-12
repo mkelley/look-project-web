@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import AlertsByDay from '../components/AlertsByDay';
+import AlertsByNight from '../components/AlertsByNight';
 import AnomalousAlerts from '../components/AnomalousAlerts';
 import AnomalousPhotometry from '../components/AnomalousPhotometry';
 import Layout from '../components/Layout';
@@ -13,10 +13,11 @@ import RecentAlerts from '../components/RecentAlerts';
 import RecentPhotometryPlot from '../components/RecentPhotometryPlot';
 import RecentPhotometryTable from '../components/RecentPhotometryTable';
 import SignIn from '../components/SignIn';
+import SummaryByObject from '../components/SummaryByObject';
+import Typography from '@material-ui/core/Typography';
 
 import firebase from '../firebase';
 import parseHash from '../navigation';
-import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,10 +50,10 @@ function Dashboard() {
           </Paper>
         </Grid>
 
-        {/* Alerts by day */}
+        {/* Alerts by night */}
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <AlertsByDay />
+            <AlertsByNight />
           </Paper>
         </Grid>
 
@@ -82,15 +83,6 @@ function Dashboard() {
 
 function SummaryByDate({ query }) {
   let title = query.date || 'Summary by Date';
-  return (
-    <Typography component="p" variant="h4">
-      {title}
-    </Typography>
-  )
-}
-
-function SummaryByObject({ query }) {
-  let title = query.object || 'Summary by Object';
   return (
     <Typography component="p" variant="h4">
       {title}

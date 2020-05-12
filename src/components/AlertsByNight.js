@@ -5,14 +5,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import { lastWeekAlerts, filterInliers } from '../data';
+import { alertsByNight, lastWeek, filterInliers } from '../data';
 import { LinkToDate } from './LinkTo';
 
-export default function AlertsByDay() {
+export default function AlertsByNight() {
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Alerts by Day
+        Alerts by Night
       </Typography>
       <Table size="small">
         <TableHead>
@@ -24,7 +24,8 @@ export default function AlertsByDay() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.from(lastWeekAlerts.entries()).map(([date, alerts]) => {
+          {lastWeek.map((date) => {
+            const alerts = alertsByNight.get(date);
             return (
               <TableRow key={date}>
                 <TableCell><LinkToDate date={date} /></TableCell>

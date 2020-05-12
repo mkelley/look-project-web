@@ -2,9 +2,10 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Plot from './Plot';
-import { recentAlerts } from '../data';
+import { alertsByNight, lastWeek } from '../data';
 
 export default function RecentAlerts() {
+  const recentAlerts = Array.prototype.concat(...lastWeek.map((k) => alertsByNight.get(k)))
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>

@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { recentAlerts, filterInliers } from '../data';
+import { alertsByNight, lastNight, filterInliers } from '../data';
 import { LinkToObject } from './LinkTo';
 
 const useStyles = makeStyles({
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 export default function AnomalousAlerts() {
   const classes = useStyles();
-  const outliers = filterInliers(recentAlerts, 5, ['ostat', 'estat']);
+  const outliers = filterInliers(alertsByNight.get(lastNight), 5, ['ostat', 'estat']);
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>

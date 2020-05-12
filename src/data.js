@@ -14,8 +14,31 @@ function randomInt(max) {
   return Math.floor(Math.random() * (max + 1));
 }
 
+function fakeGeometry(rh0, dt) {
+  const selong = 90; //Math.random() * 130 + 50;
+  //const rh = Math.random() * 6.9 + 1.1;
+  const rh = rh0 * (dt * 0.03 + 1);
+
+  const a = 1;
+  const b = -2 * Math.cos(selong * Math.PI / 180);
+  const c = 1 - rh ** 2;
+  const x = b / (2 * a);
+  const y = Math.sqrt(x ** 2 - c / a);
+  const delta = Math.max(x + y, x - y);
+
+  const phase = Math.acos((rh ** 2 + delta ** 2 - 1) / (2 * rh * delta)) * 180 / Math.PI;
+
+  return { rh, delta, phase, selong };
+}
+
 // Generate fake alerts
 function createAlert() {
+  const object = randomInt(100000);
+  const rh0 = object / 100000 * 4 + 1.3;
+  const dt = Math.random() * 30;  // days
+  const date = moment().subtract(dt * 24 * 60, 'minute');
+  const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
+
   const magpsf = Math.random() * 6 + 14;
   const dm_outburst = randn() * 0.01 * (1 + (Math.random() > 0.9) * Math.abs(randn()) * 10);
   const unc = Math.random() * 0.05 + 0.02;
@@ -25,7 +48,11 @@ function createAlert() {
   const estat = (magap - magpsf) / Math.sqrt(2 * unc ** 2)
 
   return {
-    object: randomInt(100000),
+    object,
+    date,
+    rh,
+    delta,
+    phase,
     fid: 2,  // Filter ID (1=g; 2=r; 3=i)
     magpsf,
     sigmapdf: unc,
@@ -52,18 +79,8 @@ function estimateError(m) {
 function createPhotometry(object, M, rh0) {
   const dt = Math.random() * 30;  // days
   const date = moment().subtract(dt * 24 * 60, 'minute');
-  const selong = 90; //Math.random() * 130 + 50;
-  //const rh = Math.random() * 6.9 + 1.1;
-  const rh = rh0 + dt * 0.03;
 
-  const a = 1;
-  const b = -2 * Math.cos(selong * 180 / Math.PI);
-  const c = 1 - rh ** 2;
-  const x = b / (2 * a);
-  const y = Math.sqrt(x ** 2 - c / a);
-  const delta = Math.max(x + y, x - y);
-
-  const phase = Math.acos((rh ** 2 + delta ** 2 - 1) / (2 * rh * delta) * Math.PI / 180);
+  const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
 
   const filter = 'gri'.charAt(randomInt(2));
   const rap = [2, 5, 10, 10000, 20000];
@@ -119,9 +136,20 @@ function filterInliers(observations, sigma, parameters) {
 }
 
 let now = moment();
-let lastWeek = Array.from(Array(7), (x, i) => {
-  return now.clone().subtract(6 - i, 'days').format('YYYY-MM-DD');
+let lastMonth = Array.from(Array(30), (x, i) => {
+  return now.clone().subtract(29 - i, 'days').format('YYYY-MM-DD');
 });
+let lastWeek = lastMonth.slice(-7);
+let lastNight = lastMonth[lastMonth.length - 1];
+
+const alertsByNight = new Map(
+  Array.from(lastMonth, (d) => {
+    let n = (randomInt(100) + 1000) * (Math.random() > 0.1);
+    return [d, Array.from(Array(n), createAlert)];
+  })
+);
+//const alerts = Array.prototype.concat(... alertsByNight.values());
+/*
 const lastWeekAlerts = new Map(
   Array.from(lastWeek, (d) => {
     let n = (randomInt(100) + 1000) * (Math.random() > 0.1);
@@ -129,6 +157,7 @@ const lastWeekAlerts = new Map(
   })
 );
 const recentAlerts = lastWeekAlerts.get(moment().format('YYYY-MM-DD'));
+*/
 
 const comets = [
   ["C/2018 S2", 10, 5],
@@ -150,4 +179,4 @@ const phot = Array.from(Array(comets.length * 10), () =>
 
 const recentDate = moment().subtract(3, 'day');
 const recentPhot = phot.filter(obs => (obs.date > recentDate));
-export { lastWeekAlerts, recentAlerts, filterInliers, phot, recentPhot };
+export { alertsByNight, lastMonth, lastWeek, lastNight, filterInliers, phot, recentPhot };
