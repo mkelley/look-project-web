@@ -12,6 +12,7 @@ npm install
 npm install @material-ui/icons
 npm install moment --save
 npm install mui-datatables --save
+npm install @material/lab --save
 
 # run development server
 npm run develop

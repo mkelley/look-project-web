@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { recentPhot, filterInliers } from '../data';
-import { LinkToObject } from './LinkTo';
+import { LinkToTarget } from './LinkTo';
 
 const useStyles = makeStyles({
   depositContext: {
@@ -29,16 +29,16 @@ export default function AnomalousPhotometry() {
           <Table className={classes.table} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
-                <TableCell>Object</TableCell>
+                <TableCell>Target</TableCell>
                 <TableCell align="right">estat</TableCell>
                 <TableCell align="right">ostat</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {outliers.map((row) => (
-                <TableRow key={row.object}>
+                <TableRow key={row.designation}>
                   <TableCell component="th" scope="row">
-                    <LinkToObject object={row.object} />
+                    <LinkToTarget designation={row.designation} />
                   </TableCell>
                   <TableCell align="right">{row.estat.toFixed(1)}</TableCell>
                   <TableCell align="right">{row.ostat.toFixed(1)}</TableCell>

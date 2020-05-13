@@ -32,9 +32,8 @@ function fakeGeometry(rh0, dt) {
 }
 
 // Generate fake alerts
-function createAlert() {
-  const object = randomInt(100000);
-  const rh0 = object / 100000 * 4 + 1.3;
+function createAlert(designation) {
+  const rh0 = designation / 100000 * 4 + 1.3;
   const dt = Math.random() * 30;  // days
   const date = moment().subtract(dt * 24 * 60, 'minute');
   const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
@@ -46,14 +45,17 @@ function createAlert() {
 
   const magap = magpsf + (Math.random() * 0.25 - 0.1);
   const estat = (magap - magpsf) / Math.sqrt(2 * unc ** 2)
+  const fid = randomInt(2) + 1;  // Filter ID (1=g; 2=r; 3=i)
 
   return {
-    object,
+    designation,
+    source: 'ZTF Alert',
     date,
     rh,
     delta,
     phase,
-    fid: 2,  // Filter ID (1=g; 2=r; 3=i)
+    fid,
+    filter: ['g', 'r', 'i'][fid - 1],
     magpsf,
     sigmapdf: unc,
     magap,
@@ -76,7 +78,7 @@ function estimateError(m) {
 }
 
 // Generate fake photometry
-function createPhotometry(object, M, rh0) {
+function createPhotometry(designation, M, rh0) {
   const dt = Math.random() * 30;  // days
   const date = moment().subtract(dt * 24 * 60, 'minute');
 
@@ -84,7 +86,7 @@ function createPhotometry(object, M, rh0) {
 
   const filter = 'gri'.charAt(randomInt(2));
   const rap = [2, 5, 10, 10000, 20000];
-  const m0 = M + 5 * Math.log10(rh ** 2 * delta) + 5;
+  const m0 = M + 5 * Math.log10(rh ** 2 * delta) + 2;
   const m = Array.from(Array(rap.length), (x, i) => {
     let rap_arcsec = rap[i] > 1000 ? (rap[i] / 725 / delta) : rap[i];
     return (m0 + 2.5 * Math.log10(rap[0] / rap_arcsec) + randn() * 0.1);
@@ -106,7 +108,8 @@ function createPhotometry(object, M, rh0) {
   const ostat = (mPredict - m[testAp]) / Math.sqrt(merr[testAp] ** 2 + merrPredict ** 2);
 
   return {
-    object,
+    designation,
+    source: 'LCO',
     date,
     rh,
     delta,
@@ -145,19 +148,9 @@ let lastNight = lastMonth[lastMonth.length - 1];
 const alertsByNight = new Map(
   Array.from(lastMonth, (d) => {
     let n = (randomInt(100) + 1000) * (Math.random() > 0.1);
-    return [d, Array.from(Array(n), createAlert)];
+    return [d, Array.from(Array(n), (x, i) => createAlert(i + 1))];
   })
 );
-//const alerts = Array.prototype.concat(... alertsByNight.values());
-/*
-const lastWeekAlerts = new Map(
-  Array.from(lastWeek, (d) => {
-    let n = (randomInt(100) + 1000) * (Math.random() > 0.1);
-    return [d, Array.from(Array(n), createAlert)]
-  })
-);
-const recentAlerts = lastWeekAlerts.get(moment().format('YYYY-MM-DD'));
-*/
 
 const comets = [
   ["C/2018 S2", 10, 5],
@@ -177,6 +170,12 @@ const phot = Array.from(Array(comets.length * 10), () =>
   createPhotometry(...comets[randomInt(comets.length - 1)])
 );
 
+const targets = Array(... new Set(
+  Array.prototype.concat(phot, ...alertsByNight.values()).map(
+    row => String(row.designation)
+  )
+));
+
 const recentDate = moment().subtract(3, 'day');
 const recentPhot = phot.filter(obs => (obs.date > recentDate));
-export { alertsByNight, lastMonth, lastWeek, lastNight, filterInliers, phot, recentPhot };
+export { targets, alertsByNight, lastMonth, lastWeek, lastNight, filterInliers, phot, recentPhot };

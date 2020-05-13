@@ -6,7 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { alertsByNight, lastWeek, filterInliers } from '../data';
-import { LinkToDate } from './LinkTo';
+import { LinkToNight } from './LinkTo';
 
 export default function AlertsByNight() {
   return (
@@ -28,7 +28,7 @@ export default function AlertsByNight() {
             const alerts = alertsByNight.get(date);
             return (
               <TableRow key={date}>
-                <TableCell><LinkToDate date={date} /></TableCell>
+                <TableCell><LinkToNight date={date} /></TableCell>
                 <TableCell>{alerts.length}</TableCell>
                 <TableCell>{filterInliers(alerts, 3, ['ostat', 'estat']).length}</TableCell>
                 <TableCell>{filterInliers(alerts, 5, ['ostat', 'estat']).length}</TableCell>

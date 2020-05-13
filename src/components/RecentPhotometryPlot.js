@@ -20,7 +20,7 @@ export default function RecentPhotometryPlot() {
             marker: {
               color: '#edc948'
             },
-            hovertext: recentPhot.map(row => row.object),
+            hovertext: recentPhot.map(row => row.designation),
             hoverinfo: "text"
           }]}
           layout={{

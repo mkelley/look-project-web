@@ -6,14 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import AlertsByNight from '../components/AlertsByNight';
-import AnomalousAlerts from '../components/AnomalousAlerts';
+import AnomalousAlerts from '../components/AnomalousAlertsTable';
 import AnomalousPhotometry from '../components/AnomalousPhotometry';
 import Layout from '../components/Layout';
-import RecentAlerts from '../components/RecentAlerts';
+import RecentAlerts from '../components/RecentAlertsPlot';
 import RecentPhotometryPlot from '../components/RecentPhotometryPlot';
 import RecentPhotometryTable from '../components/RecentPhotometryTable';
 import SignIn from '../components/SignIn';
-import SummaryByObject from '../components/SummaryByObject';
+import Targets from '../components/Targets';
 import Typography from '@material-ui/core/Typography';
 
 import firebase from '../firebase';
@@ -81,8 +81,8 @@ function Dashboard() {
   );
 }
 
-function SummaryByDate({ query }) {
-  let title = query.date || 'Summary by Date';
+function Nights({ query }) {
+  let title = query.date || 'Nights';
   return (
     <Typography component="p" variant="h4">
       {title}
@@ -125,10 +125,10 @@ export default function Index() {
   if (authorized === null) {
     return <></>;
   } else if (authorized) {
-    if (page === '#summary-by-date') {
-      return <Layout><SummaryByDate query={query} /></Layout>;
-    } else if (page === '#summary-by-object') {
-      return <Layout><SummaryByObject query={query} /></Layout>;
+    if (page === '#nights') {
+      return <Layout><Nights query={query} /></Layout>;
+    } else if (page === '#targets') {
+      return <Layout><Targets query={query} /></Layout>;
     } else if (page === '#report') {
       return <Layout><Report query={query} /></Layout>;
     } else {

@@ -1,11 +1,11 @@
 /* Parse window location hash for expected format.  Site navigation uses
    fragment identifier with buried query string:
     #dashboard
-    #summary-by-date?date=2020-05-09
-    #summary-by-object?object=C/2017 D4
+    #nights?date=2020-05-09
+    #targets?name=C/2017 D4
 */
 export default function parseHash() {
-  let allowedSearchParams = ['object', 'date', 'period'];
+  let allowedSearchParams = ['designation', 'date', 'period'];
   let page, search, query;
 
   if (typeof window !== `undefined`) {

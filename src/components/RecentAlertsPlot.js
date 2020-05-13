@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Plot from './Plot';
 import { alertsByNight, lastWeek } from '../data';
 
-export default function RecentAlerts() {
+export default function RecentAlertsPlot() {
   const recentAlerts = Array.prototype.concat(...lastWeek.map((k) => alertsByNight.get(k)))
   return (
     <React.Fragment>
@@ -21,7 +21,7 @@ export default function RecentAlerts() {
             marker: {
               color: '#edc948'
             },
-            hovertext: recentAlerts.map(row => row.object),
+            hovertext: recentAlerts.map(row => row.designation),
             hoverinfo: "text"
           }]}
           layout={{

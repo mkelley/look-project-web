@@ -218,13 +218,13 @@ export default function Layout({ children }) {
               icon={<DashboardIcon />}
             />
             <DrawerItem
-              text="Summary by date"
-              href='#summary-by-date'
+              text="Nights"
+              href='#nights'
               icon={<CalendarTodayIcon />}
             />
             <DrawerItem
-              text="Summary by object"
-              href='#summary-by-object'
+              text="Targets"
+              href='#targets'
               icon={<LabelIcon />}
             />
           </div>

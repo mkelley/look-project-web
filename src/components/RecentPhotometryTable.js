@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import MUIDataTable from "mui-datatables";
-import { LinkToDate, LinkToObject } from './LinkTo';
+import { LinkToNight, LinkToTarget } from './LinkTo';
 import { recentPhot } from '../data';
 
 function toFixed(N) {
@@ -11,15 +11,16 @@ function toFixed(N) {
 }
 
 function formatDate(value, tableMeta, updateValue) {
-  return (value === undefined ? '' : <LinkToDate date={value} format='YYYY-MM-DD HH:MM' />);
+  return (value === undefined ? '' : <LinkToNight date={value} format='YYYY-MM-DD HH:MM' />);
 }
 
-function formatObject(value, tableMeta, updateValue) {
-  return value === undefined ? '' : <LinkToObject object={value}/>;
+function formatDesignation(value, tableMeta, updateValue) {
+  return value === undefined ? '' : <LinkToTarget designation={value}/>;
 }
 
 const columns = [
-  { name: "object", label: 'Object', options: {customBodyRender: formatObject} },
+  { name: "designation", label: 'Designation', options: {customBodyRender: formatDesignation} },
+  { name: "source", label: 'Source' },
   { name: "date", label: <>Date<br/>(UTC)</>, options: {customBodyRender: formatDate}},
   { name: "rh", label: <>r<sub>h</sub><br/>(au)</>, options: {customBodyRender: toFixed(3)} },
   { name: "delta", label: <>Δ<br/>(au)</>, options: {customBodyRender: toFixed(3)} },
