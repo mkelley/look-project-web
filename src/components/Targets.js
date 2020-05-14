@@ -22,10 +22,6 @@ function formatDate(value, tableMeta, updateValue) {
   return (value === undefined ? '' : <LinkToNight date={value} format='YYYY-MM-DD HH:MM' />);
 }
 
-function mdiff(value, tableMeta, updateValue) {
-  return (value === undefined ? '' : (value - tableMeta.rowData[6]).toFixed(2));
-}
-
 const columns = [
   { name: "designation", label: "Designation", options: { display: 'false' } },
   { name: "source", label: 'Source' },
@@ -58,7 +54,7 @@ export default function Targets({ query }) {
   const validTarget = targets.indexOf(query.designation) > -1 ? true : null;
   const error = (query.designation !== undefined) && (!validTarget) ? true : null;
 
-  const alerts = Array.prototype.concat(phot, ...alertsByNight.values()).filter(
+  const data = Array.prototype.concat(phot, ...alertsByNight.values()).filter(
     row => row.designation == query.designation
   );
 
@@ -86,11 +82,11 @@ export default function Targets({ query }) {
         {validTarget &&
           <Plot
             data={[{
-              x: alerts.map(row => row.rh),
-              y: alerts.map(row => row.m7),
+              x: data.map(row => row.rh),
+              y: data.map(row => row.m7),
               error_y: {
                 type: 'data',
-                array: alerts.map(row => row.merr7),
+                array: data.map(row => row.merr7),
                 visible: true
               },
               mode: 'markers',
@@ -115,7 +111,7 @@ export default function Targets({ query }) {
             style={{ width: '100%', height: '100%' }}
           />
         }
-        {validTarget && <MUIDataTable data={alerts} columns={columns} />}
+        {validTarget && <MUIDataTable data={data} columns={columns} />}
       </Container>
     </>
   );

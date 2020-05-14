@@ -32,10 +32,10 @@ function fakeGeometry(rh0, dt) {
 }
 
 // Generate fake alerts
-function createAlert(designation) {
+function createAlert(night, designation) {
   const rh0 = designation / 100000 * 4 + 1.3;
-  const dt = Math.random() * 30;  // days
-  const date = moment().subtract(dt * 24 * 60, 'minute');
+  const dt = Math.random() * 24;  // hours
+  const date = moment(night).add(dt * 60, 'minute');
   const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
 
   const mpsf = Math.random() * 6 + 14;
@@ -145,16 +145,16 @@ function filterInliers(observations, sigma, parameters) {
 }
 
 let now = moment();
-let lastMonth = Array.from(Array(30), (x, i) => {
+let nights = Array.from(Array(30), (x, i) => {
   return now.clone().subtract(29 - i, 'days').format('YYYY-MM-DD');
 });
-let lastWeek = lastMonth.slice(-7);
-let lastNight = lastMonth[lastMonth.length - 1];
+let lastWeek = nights.slice(-7);
+let lastNight = nights[nights.length - 1];
 
 const alertsByNight = new Map(
-  Array.from(lastMonth, (d) => {
+  Array.from(nights, (d) => {
     let n = (randomInt(100) + 1000) * (Math.random() > 0.1);
-    return [d, Array.from(Array(n), (x, i) => createAlert(i + 1))];
+    return [d, Array.from(Array(n), (x, i) => createAlert(d, i + 1))];
   })
 );
 
@@ -176,7 +176,7 @@ const phot = Array.from(Array(comets.length * 10), () =>
   createPhotometry(...comets[randomInt(comets.length - 1)])
 );
 
-const targets = Array(... new Set(
+const targets = Array(...new Set(
   Array.prototype.concat(phot, ...alertsByNight.values()).map(
     row => String(row.designation)
   )
@@ -184,4 +184,4 @@ const targets = Array(... new Set(
 
 const recentDate = moment().subtract(3, 'day');
 const recentPhot = phot.filter(obs => (obs.date > recentDate));
-export { targets, alertsByNight, lastMonth, lastWeek, lastNight, filterInliers, phot, recentPhot };
+export { targets, alertsByNight, nights, lastWeek, lastNight, filterInliers, phot, recentPhot };

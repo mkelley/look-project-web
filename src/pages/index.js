@@ -1,106 +1,34 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-
-import AlertsByNight from '../components/AlertsByNight';
-import AnomalousAlerts from '../components/AnomalousAlertsTable';
-import AnomalousPhotometry from '../components/AnomalousPhotometry';
+import Dashboard from '../components/Dashboard';
 import Layout from '../components/Layout';
-import RecentAlerts from '../components/RecentAlertsPlot';
-import RecentPhotometryPlot from '../components/RecentPhotometryPlot';
-import RecentPhotometryTable from '../components/RecentPhotometryTable';
+import Nights from '../components/Nights';
 import SignIn from '../components/SignIn';
 import Targets from '../components/Targets';
 import Typography from '@material-ui/core/Typography';
 
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from '@date-io/moment';
+
 import firebase from '../firebase';
-import parseHash from '../navigation';
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 400,
-  },
-}));
-
-function Dashboard() {
-  const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  return (
-    <>
-      <Grid container spacing={3}>
-        {/* Recent alerts */}
-        <Grid item xs={12} md={8} lg={9}>
-          <Paper className={fixedHeightPaper}>
-            <RecentAlerts />
-          </Paper>
-        </Grid>
-        {/* Anomalous alerts */}
-        <Grid item xs={12} md={4} lg={3}>
-          <Paper className={fixedHeightPaper}>
-            <AnomalousAlerts />
-          </Paper>
-        </Grid>
-
-        {/* Alerts by night */}
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <AlertsByNight />
-          </Paper>
-        </Grid>
-
-        {/* Recent stats */}
-        <Grid item xs={12} md={8} lg={9}>
-          <Paper className={fixedHeightPaper}>
-            <RecentPhotometryPlot />
-          </Paper>
-        </Grid>
-        {/* Anomalous photometry */}
-        <Grid item xs={12} md={4} lg={3}>
-          <Paper className={fixedHeightPaper}>
-            <AnomalousPhotometry />
-          </Paper>
-        </Grid>
-
-        {/* Recent photometry */}
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <RecentPhotometryTable />
-          </Paper>
-        </Grid>
-      </Grid>
-    </>
-  );
-}
-
-function Nights({ query }) {
-  let title = query.date || 'Nights';
-  return (
-    <Typography component="p" variant="h4">
-      {title}
-    </Typography>
-  )
-}
+import { parseHash } from '../navigation';
 
 function Report({ query }) {
   // allow reporting for monthly, semester, project (default)
   const periods = ['monthly', 'semester', 'project']
   const period = periods[periods.indexOf(query.period)] || 'project';
   const title = period[0].toUpperCase() + period.substr(1) + ' Report';
-  console.log(query, query.period, periods, periods.indexOf(query.period));
+
   return (
-    <Typography component="p" variant="h4">
-      {title}
-    </Typography>
-  )
+    <>
+      <Typography component="p" variant="h4">
+        {title}
+      </Typography>
+      <Typography component="p">
+        TBD
+      </Typography>
+    </>
+  );
 }
 
 export default function Index() {
@@ -122,19 +50,25 @@ export default function Index() {
     setAuthorized(firebase.auth().currentUser !== null);
   });
 
+  let content;
   if (authorized === null) {
-    return <></>;
+    content = <div></div>;
   } else if (authorized) {
     if (page === '#nights') {
-      return <Layout><Nights query={query} /></Layout>;
+      content = <Layout><Nights query={query} /></Layout>;
     } else if (page === '#targets') {
-      return <Layout><Targets query={query} /></Layout>;
+      content = <Layout><Targets query={query} /></Layout>;
     } else if (page === '#report') {
-      return <Layout><Report query={query} /></Layout>;
+      content = <Layout><Report query={query} /></Layout>;
     } else {
-      return <Layout><Dashboard /></Layout>;
+      content = <Layout><Dashboard /></Layout>;
     }
   } else {
-    return <SignIn />;
+    content = <SignIn />;
   }
+  return (
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      {content}
+    </MuiPickersUtilsProvider>
+  );
 }

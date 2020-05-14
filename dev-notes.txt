@@ -10,9 +10,10 @@ rmdir gatsby
 # setup node modules
 npm install
 npm install @material-ui/icons
-npm install moment --save
 npm install mui-datatables --save
 npm install @material/lab --save
+npm install @material-ui/pickers --save
+npm install npm i @date-io/moment@1.x moment --save
 
 # run development server
 npm run develop
