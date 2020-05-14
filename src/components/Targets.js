@@ -87,7 +87,12 @@ export default function Targets({ query }) {
           <Plot
             data={[{
               x: alerts.map(row => row.rh),
-              y: alerts.map(row => row.magap),
+              y: alerts.map(row => row.m7),
+              error_y: {
+                type: 'data',
+                array: alerts.map(row => row.merr7),
+                visible: true
+              },
               mode: 'markers',
               type: 'scatter',
               marker: {
@@ -99,7 +104,7 @@ export default function Targets({ query }) {
                 title: 'rh (au)'
               },
               yaxis: {
-                title: 'm<sub>ap</sub> (mag)'
+                title: 'm(7") (mag)'
               },
               autosize: true,
               automargin: true,
