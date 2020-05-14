@@ -11,6 +11,7 @@ import MUIDataTable from "mui-datatables";
 import { LinkToNight } from './LinkTo';
 import Plot from './Plot';
 import { alertsByNight, phot, targets } from '../data';
+import { setWindowHREF } from '../navigation';
 
 function toFixed(N) {
   return ((value, tableMeta, updateValue) =>
@@ -50,8 +51,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Targets({ query }) {
   const classes = useStyles();
 
-  //let designation = (targets.indexOf(query.designation) > -1) ? query.designation : null;
-  const validTarget = targets.indexOf(query.designation) > -1 ? true : null;
+  const validTarget = targets.includes(query.designation) ? true : null;
   const error = (query.designation !== undefined) && (!validTarget) ? true : null;
 
   const data = Array.prototype.concat(phot, ...alertsByNight.values()).filter(
@@ -70,7 +70,7 @@ export default function Targets({ query }) {
           value={query.designation}
           style={{width: 200}}
           renderInput={(params) => <TextField {...params} label="Designation" variant="outlined" />}
-          onChange={(event, newValue) => window.location.href = '#targets?designation=' + newValue }
+          onChange={(event, designation) => setWindowHREF('#targets', {designation})}
         />
         { error &&
           <Typography component="p" className={classes.error}>
