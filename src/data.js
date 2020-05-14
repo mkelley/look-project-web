@@ -38,13 +38,15 @@ function createAlert(designation) {
   const date = moment().subtract(dt * 24 * 60, 'minute');
   const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
 
-  const magpsf = Math.random() * 6 + 14;
+  const mpsf = Math.random() * 6 + 14;
   const dm_outburst = randn() * 0.01 * (1 + (Math.random() > 0.9) * Math.abs(randn()) * 10);
   const unc = Math.random() * 0.05 + 0.02;
   const ostat = dm_outburst / unc;
 
-  const magap = magpsf + (Math.random() * 0.25 - 0.1);
-  const estat = (magap - magpsf) / Math.sqrt(2 * unc ** 2)
+  // ZTF alert stream magap = 7 pix radius, magapbig = 9 pix radius
+  const magap = mpsf + (Math.random() * 0.25 - 0.1);
+  const magapbig = magap + (Math.random() * 0.25 - 0.1);
+  const estat = (magap - mpsf) / Math.sqrt(2 * unc ** 2)
   const fid = randomInt(2) + 1;  // Filter ID (1=g; 2=r; 3=i)
 
   return {
@@ -56,10 +58,12 @@ function createAlert(designation) {
     phase,
     fid,
     filter: ['g', 'r', 'i'][fid - 1],
-    magpsf,
-    sigmapdf: unc,
-    magap,
-    sigmagap: unc,
+    mpsf,
+    merrpsf: unc,
+    m7: magap,
+    m9: magapbig,
+    merr7: unc,
+    merr9: unc,
     ostat,
     estat
   };
@@ -85,7 +89,7 @@ function createPhotometry(designation, M, rh0) {
   const { rh, delta, phase, selong } = fakeGeometry(rh0, dt);
 
   const filter = 'gri'.charAt(randomInt(2));
-  const rap = [2, 5, 10, 10000, 20000];
+  const rap = [3, 7, 9, 15, 10000, 20000];
   const m0 = M + 5 * Math.log10(rh ** 2 * delta) + 2;
   const m = Array.from(Array(rap.length), (x, i) => {
     let rap_arcsec = rap[i] > 1000 ? (rap[i] / 725 / delta) : rap[i];
@@ -115,16 +119,18 @@ function createPhotometry(designation, M, rh0) {
     delta,
     phase,
     filter,
-    m2: m[0],
-    m5: m[1],
-    m10: m[2],
-    m10000: m[3],
-    m20000: m[4],
-    merr2: merr[0],
-    merr5: merr[1],
-    merr10: merr[2],
-    merr10000: merr[3],
-    merr20000: merr[4],
+    m3: m[0],
+    m7: m[1],
+    m9: m[2],
+    m15: m[3],
+    m10000: m[4],
+    m20000: m[5],
+    merr3: merr[0],
+    merr7: merr[1],
+    merr9: merr[2],
+    merr15: merr[3],
+    merr10000: merr[4],
+    merr20000: merr[5],
     estat,
     ostat
   };

@@ -26,8 +26,8 @@ const columns = [
   { name: "delta", label: <>Δ<br/>(au)</>, options: {customBodyRender: toFixed(3)} },
   { name: "phase", label: <>phase<br/>(°)</>, options: {customBodyRender: toFixed(2)} },
   { name: "filter", label: "Filter" },
-  { name: "m5", label: <>m(5")<br/>(mag)</>, options: {customBodyRender: toFixed(2)} },
-  { name: "merr5", label: <>σ<br/>(mag)</>, options: {customBodyRender: toFixed(2)} },
+  { name: "m7", label: <>m(7")<br/>(mag)</>, options: {customBodyRender: toFixed(2)} },
+  { name: "merr7", label: <>σ(7")<br/>(mag)</>, options: {customBodyRender: toFixed(2)} },
   { name: "estat", label: "estat", options: {customBodyRender: toFixed(1)} },
   { name: "ostat", label: "ostat", options: {customBodyRender: toFixed(1)} },
 ];
